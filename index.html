@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Affordable and professional web design">
+	  <meta name="keywords" content="web design, affordable web design, professional web design">
+  	<meta name="author" content="Brad Traversy">
+    <title>Acme Web Deisgn | Welcome</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="img/favicon.png">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div id="branding">
+          <h1><span class="highlight">Acme</span> Web Design</h1>
+        </div>
+        <nav>
+          <ul>
+            <li class="current"><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section id="showcase">
+      <div class="container">
+        <h1>Affordable Professional Web Design</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu luctus ipsum, rhoncus semper magna. Nulla nec magna sit amet sem interdum condimentum.</p>
+      </div>
+    </section>
+
+    <section id="newsletter">
+      <div class="container">
+        <h1>Subscribe To Our Newsletter</h1>
+        <form>
+          <input type="email" placeholder="Enter Email..." required>
+          <button type="submit" class="button_1">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="boxes">
+      <div class="container">
+        <div class="box">
+          <img src="./img/logo_html.png">
+          <h3>HTML5 Markup</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mi augue, viverra sit amet ultricies</p>
+        </div>
+        <div class="box">
+          <img src="./img/logo_css.png">
+          <h3>CSS3 Styling</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mi augue, viverra sit amet ultricies</p>
+        </div>
+        <div class="box">
+          <img src="./img/logo_brush.png">
+          <h3>Graphic Design</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mi augue, viverra sit amet ultricies</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Acme Web Deisgn, Copyright &copy; 2019</p>
+    </footer>
+    <!-- Firebase Realtime Code -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0gQyiDIatk4W7HWe_lav1A1OaFPzC2fY",
+    authDomain: "league-app-e6385.firebaseapp.com",
+    databaseURL: "https://league-app-e6385-default-rtdb.firebaseio.com",
+    projectId: "league-app-e6385",
+    storageBucket: "league-app-e6385.firebasestorage.app",
+    messagingSenderId: "1050763438763",
+    appId: "1:1050763438763:web:9f24c957ad6e7946b9e5ee",
+    measurementId: "G-2HTB9EQ1HF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const leagueRef = ref(db, "currentLeague");
+
+  window.updateLeagueForEveryone = function(newLeagueData) {
+    set(leagueRef, {
+      league: newLeagueData,
+      updatedAt: Date.now()
+    });
+  };
+
+  onValue(leagueRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data && data.league) {
+      window.dispatchEvent(new CustomEvent('leagueUpdatedFromFirebase', { detail: data.league }));
+    }
+  });
+  <!-- أزرار اختيار الدوري -->
+<div style="text-align: center; margin: 20px 0;">
+  <h3>اختر الدوري:</h3>
+  <button onclick="window.updateLeagueForEveryone('الدوري الإسباني')">الدوري الإسباني</button>
+  <button onclick="window.updateLeagueForEveryone('الدوري الإنجليزي')">الدوري الإنجليزي</button>
+  <button onclick="window.updateLeagueForEveryone('الدوري الإيطالي')">الدوري الإيطالي</button>
+</div>
+
+</script>
+
+  </body>
+</html>
